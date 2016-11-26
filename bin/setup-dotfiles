@@ -1,0 +1,19 @@
+#!/bin/bash
+#
+# Author: Alan Evans <AlanWEvans@gmail.com>
+#
+
+# Based on https://developer.atlassian.com/blog/2016/02/best-way-to-store-dotfiles-git-bare-repo/
+
+git clone --bare https://github.com/alanwevans/dotfiles.git $HOME/.cfg
+alias config='/usr/bin/git --git-dir $HOME/.cfg/ --work-tree=$HOME'
+
+config checkout
+config config --local status.showUntrackedFiles no
+
+# http://stackoverflow.com/questions/33933702/git-checkout-except-one-folder
+config config core.sparseCheckout true
+echo -e '/*\n!README.md\!LICENSE' >> .git/info/sparse-checkout
+
+
+echo "Config cloned and checked out, you probably want to logout/in again."
