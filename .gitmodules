@@ -1,0 +1,6 @@
+[submodule ".vim/bundle/vimtemplates"]
+	path = .vim/bundle/vimtemplates
+	url = https://github.com/drbeco/vimtemplates.git
+[submodule ".vim/bundle/vim-skeleton"]
+	path = .vim/bundle/vim-skeleton
+	url = https://github.com/noahfrederick/vim-skeleton.git
