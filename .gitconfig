@@ -1,0 +1,14 @@
+[user]
+	name = Alan Evans
+    # No email, git will try the env var EMAIL
+[alias]
+	vimdiff = difftool --tool=vimdiff --no-prompt
+	unstage = reset HEAD --
+[merge]
+	tool = vimdiff
+[diff]
+	tool = vimdiff
+[color]
+	ui = true
+[core]
+	editor = vim

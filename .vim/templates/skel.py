@@ -7,4 +7,9 @@ Author: "@AUTHOR@" <@EMAIL@>
 Date:   @DATE@
 """
 
-@CURSOR@
+def main(args):
+    pass
+    @CURSOR@
+
+if __name__ == '__main__':
+    sys.exit(main(sys.argv))

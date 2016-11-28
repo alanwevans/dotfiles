@@ -1,10 +1,15 @@
 " .vimrc
 "
 " Author: Alan Evans <AlanWEvans@gmail.com>
-" 
+"
 
+syntax on
 set modeline
-setl ts=4 sts=4 sw=4 et
+set bg=dark
+
+filetype plugin on
+filetype plugin indent on
+set ts=4 sw=4 sts=4 et
 
 execute pathogen#infect()
 
