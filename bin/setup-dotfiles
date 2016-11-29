@@ -3,17 +3,43 @@
 # Author: Alan Evans <AlanWEvans@gmail.com>
 #
 
-# Based on https://developer.atlassian.com/blog/2016/02/best-way-to-store-dotfiles-git-bare-repo/
+# Inspired by https://developer.atlassian.com/blog/2016/02/best-way-to-store-dotfiles-git-bare-repo/
 
-git clone --bare https://github.com/alanwevans/dotfiles.git $HOME/.cfg
-alias config='/usr/bin/git --git-dir $HOME/.cfg/ --work-tree=$HOME'
+export GIT_DIR=$HOME/.cfg
+export GIT_WORK_TREE=$HOME
 
-config checkout
-config config --local status.showUntrackedFiles no
+function sparse-checkout() {
+    F=$HOME/.cfg/info/sparse-checkout
+    grep -q "$1" $F || echo "$1" >> $F
+}
+
+if tput colors &> /dev/null ; then
+    WARN='\e[31m'
+    DEFAULT='\e[0m'
+fi
+
+if [ ! -d $HOME/.cfg ] ; then
+    git clone --bare https://github.com/alanwevans/dotfiles.git $HOME/.cfg/
+fi
 
 # http://stackoverflow.com/questions/33933702/git-checkout-except-one-folder
-config config core.sparseCheckout true
-echo -e '/*\n!README.md\!LICENSE' >> .git/info/sparse-checkout
+git config core.sparseCheckout true
+sparse-checkout "!README.md"
+sparse-checkout "!LICENSE"
 
+git config --local status.showUntrackedFiles no
 
-echo "Config cloned and checked out, you probably want to logout/in again."
+# Since git only stores the execute mode bit, lets fixup some permissions
+while read DMODE FILE ; do
+    [ -e $FILE ] || continue
+    MODE=$(stat --printf=%a $FILE)
+    if [ ! "$MODE" == "$DMODE" ] ; then
+        echo -e "\a${WARN}WARNING:${DEFAULT} $FILE mode should be $DMODE, got $MODE" 1>&2
+        chmod $DMODE $FILE
+    fi
+done << EOF
+600 .bashrc
+700 .ssh/
+600 .ssh/id_rsa
+600 .ssh/config
+EOF
