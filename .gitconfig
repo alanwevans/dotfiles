@@ -1,14 +1,24 @@
+[core]
+	excludesfile = /home/alan/.gitignore_global
+	editor = vim
 [user]
 	name = Alan Evans
     # No email, git will try the env var EMAIL
+[color]
+	ui = true
 [alias]
-	vimdiff = difftool --tool=vimdiff --no-prompt
-	unstage = reset HEAD --
+    co = checkout
+    ; List ignored files
+    ; http://wtanaka.com/node/7875
+    li = ls-files --others -i --exclude-standard
+    ; List aliases
+    ; https://gist.github.com/mwhite/6887990
+    la = "!git config -l | grep alias | cut -c 7-"
+	vimdiff = difftool --tool=vimdiff
+    ; unstage files
+    ; https://git-scm.com/book/en/v2/Git-Basics-Git-Aliases
+    unstage = reset HEAD --
 [merge]
 	tool = vimdiff
 [diff]
 	tool = vimdiff
-[color]
-	ui = true
-[core]
-	editor = vim
